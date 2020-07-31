@@ -1,0 +1,27 @@
+targets, factors
+
+Snai2,(!ESE2 & !NFkB & !Snai2) | (!ESE2 & !NFkB & Snai2) | (!ESE2 & NFkB & !Snai2) | (!ESE2 & NFkB & Snai2) | (ESE2 & NFkB & Snai2)
+
+
+ESE2,(!NFkB & !Snai2 & !ESE2) | (!NFkB & !Snai2 & ESE2) | (!NFkB & Snai2 & ESE2) | (NFkB & !Snai2 & !ESE2) | (NFkB & !Snai2 & ESE2)
+
+
+NFkB, !(!ESE2 & !p16 & !Snai2 & !NFkB)
+
+
+p16, (!p16 & !E2F & p53 & !TELase & !Snai2) | (!p16 & !E2F & p53 & !TELase & Snai2) | (!p16 & !E2F & p53 & TELase & !Snai2) | (!p16 & E2F & p53 & !TELase & !Snai2) | (!p16 & E2F & p53 & !TELase & Snai2) | (!p16 & E2F & p53 & TELase & !Snai2) | (p16 & !E2F & !p53 & !TELase & !Snai2) | (p16 & !E2F & p53 & !TELase & !Snai2) | (p16 & !E2F & p53 & !TELase & Snai2) | (p16 & !E2F & p53 & TELase & !Snai2) | (p16 & E2F & !p53 & !TELase & !Snai2) | (p16 & E2F & !p53 & !TELase & Snai2) | (p16 & E2F & !p53 & TELase & !Snai2) | (p16 & E2F & !p53 & TELase & Snai2) | (p16 & E2F & p53 & !TELase & !Snai2) | (p16 & E2F & p53 & !TELase & Snai2) | (p16 & E2F & p53 & TELase & !Snai2) | (p16 & E2F & p53 & TELase & Snai2) | (p16 & !E2F & !p53 & TELase & !Snai2)
+
+
+p53, (!p53 & !NFkB & !TELase & !p16 & !Snai2) | (!p53 & !NFkB & !TELase & p16 & !Snai2) | (!p53 & NFkB & !TELase & p16 & !Snai2) | (p53 & !NFkB & !TELase & !p16 & !Snai2) | (p53 & !NFkB & !TELase & p16 & !Snai2) | (p53 & NFkB & !TELase & p16 & !Snai2)
+
+
+Cyclin, (!ESE2 & !E2F & !p16 & !NFkB & !Snai2) | (!ESE2 & !E2F & !p16 & NFkB & !Snai2) | (!ESE2 & !E2F & !p16 & NFkB & Snai2) | (!ESE2 & E2F & !p16 & !NFkB & !Snai2) | (!ESE2 & E2F & !p16 & NFkB & !Snai2) | (!ESE2 & E2F & !p16 & NFkB & Snai2) | (ESE2 & !E2F & !p16 & !NFkB & !Snai2) | (ESE2 & !E2F & !p16 &NFkB & !Snai2) | (ESE2 & E2F & !p16 & !NFkB & !Snai2) | (ESE2 & E2F & !p16 & NFkB & !Snai2)
+
+
+TELase, (!Snai2 & !ESE2) | (Snai2 & !ESE2)
+
+
+Rb, (!Cyclin & !p16 & p53) | (!Cyclin & p16 & !p53) | (!Cyclin & p16 & p53) | (Cyclin & !p16 & p53) | (Cyclin & p16 & !p53) | (Cyclin & p16 & p53)
+
+
+E2F, (!Rb & !p53 & !Snai2 & !Cyclin) | (!Rb & !p53 & !Snai2 & Cyclin)

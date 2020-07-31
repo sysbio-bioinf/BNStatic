@@ -1,0 +1,14 @@
+targets, factors
+TBET, (IFNG  | TBET) & ! (IL4  | GATA3 | IL21 | BCL6 | IL9)
+IFNG, (IFNG | TBET) & ! (GATA3 | TGFB | BCL6) & ! (IL21 | IL4 | IL10 | IL9)
+GATA3, ((IL2 & IL4)  | GATA3) & ! (TBET | IFNG | TGFB | IL21 | BCL6)
+IL2, (IL2 & ! FOXP3) & ! (IFNG | IL21 | IL10)
+IL4, (GATA3 & (IL2 | IL4) & ! TBET) & ! (IFNG | IL21)
+RORGT, (IL21 & TGFB) & ! (TBET | FOXP3 | GATA3 | BCL6)
+IL21, (IL21 | RORGT | BCL6) & ! (IFNG | IL4 | IL10 | IL2 | IL9)
+FOXP3, (IL2 & (TGFB | FOXP3)) & ! (IL21 | RORGT)
+TGFB, (TGFB | FOXP3) & ! IL21
+IL10, IL10 & (IFNG | IL21 | TGFB | GATA3 )
+BCL6, IL21 & ! (TBET | IL2 | TGFB)
+IL9, IL4 & ((IL10 & IL2) | TGFB) & ! (IFNG | IL21)
+

@@ -1,0 +1,23 @@
+targets, factors
+CD40L, CD40L
+IL4, IL4
+Ag, Ag
+IL2, IL2
+IL21, IL21
+IL2R, IL2
+Irf4, (NFkB | Irf4) | (Blimp1 & !Bcl6)
+XBP1, Blimp1 & !Pax5
+STAT5, IL2R
+BCR, Ag
+Bach2, Pax5 & !Blimp1
+ERK, BCR
+Bcl6, (STAT5 | STAT6 | (Pax5 & Bcl6)) & !(Blimp1 | Irf4 | ERK)
+Blimp1, (ERK | STAT3) | (Irf4 & !(Pax5 | Bcl6 | Bach2))
+STAT6, IL4R
+CD40, CD40L
+STAT3, IL21R
+Pax5, (Pax5 | !Irf4) & !(Blimp1 | ERK)
+IL4R, IL4
+IL21R, IL21
+AID, (STAT6 | (NFkB & Pax5)) & !Blimp1
+NFkB, CD40

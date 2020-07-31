@@ -1,0 +1,18 @@
+targets, factors
+SHR, SHR 
+SCR, SYS | JKD 
+JKD, (JKD | SYS) & ! PHB 
+MGP, JKD & ! (SYS & MGP) | SYS & ! JKD & ! MGP
+miRNA165, SYS | miRNA165
+PHB, ! miRNA165
+Auxin, Auxin
+IAA5, !Auxin
+WOX5, PYI5 & !CYA
+CLE, CLE
+ACR, CLE
+SYS, SHR & SCR
+CYA, CLE & ACR
+PYI5, !PHB & !IAA5
+
+
+

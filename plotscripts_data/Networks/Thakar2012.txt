@@ -1,0 +1,35 @@
+targets, factors
+NE, PIC
+DP, NE & TTSSI
+IL12I, (DCII & T0) & !IL4II
+IgG, IgG | BC
+Th1I, Th1II
+BC, T0 | BC
+DCI, (IFNgI | PIC) & Bb
+Oag, Bb
+IFNgI, ((MPI | DCI) | (Th1I & !IL10I)) & !IL4I
+TTSSII, TTSSI
+IFNgII, IFNgI
+MPI, (IFNgI | PIC) & Bb
+Th2II, DCII & T0 & !IL12II
+Th2I, Th2II
+IL4I, IL4II
+IL12II, DCII & T0 & !IL4II
+IL10II, IL10I
+Th1II, DCII & T0 & IL12II
+AgAb, (IgA | IgG) & Bb
+PH, AP & Bb
+T0, DCII
+PIC, (EC | DP | AP) & !IL10I
+IL10I, (Th2I & TTSSI) | TrI | MPI
+IL4II, ((DCII & T0) | Th2II) & !IL12II & !IFNgII
+DCII, DCI
+TrII, DCII & T0
+AP, Bb & (MPI & Th1I) & ((C & IgG) | AgAb)
+Bb, Bb & !PH
+IgA, (IgA | BC) & Bb
+TrI, TrII
+TTSSI, Bb & !(IgG | IgA)
+EC, Bb
+C, (IgG & AgAb) | (Bb & !Oag)
+

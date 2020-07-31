@@ -1,0 +1,25 @@
+targets, factors
+hapX, !SreA
+sreA, !HapX
+HapX, hapX & (!LIP)
+SreA, sreA & LIP
+RIA, !SreA
+EstB, !SreA
+MirB, HapX & (!SreA)
+SidA, HapX & (!SreA)
+TAFC, SidA
+ICP, (!HapX) & (VAC | FCposFe)
+LIP, (TAFC & MirB & EstB) | (Iron & RIA)
+CccA, !HapX
+FCnegFe, SidA
+FCposFe, LIP & FCnegFe
+VAC, LIP & CccA
+ROS, LIP | (Superoxide & (!(SOD3 & ThP & Cat12))) | (ROS & (!(SOD3 & (ThP | Cat12))))
+Yap1, ROS
+SOD3, Yap1
+Cat12, Yap1 & (!HapX)
+ThP, Yap1
+Iron, Iron
+Superoxide, Superoxide
+
+

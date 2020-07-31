@@ -1,0 +1,8 @@
+targets, factors
+GacSGacA, GacSGacA
+RpoN, GacSGacA
+HrpRS, (GacSGacA) & (! HrpV) | (HrpA)
+HrpV, (HrpL & RpoN) & ! HrpG
+HrpA, HrpL
+HrpG, HrpL
+HrpL, RpoN & HrpRS

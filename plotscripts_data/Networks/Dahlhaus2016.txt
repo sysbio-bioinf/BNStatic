@@ -1,0 +1,24 @@
+targets, factors
+CentrosomeMat, CDK1CCNBComplex & ! SpindleAssembly
+SpindleAssembly, CentrosomeMat & !Cytokinesis
+Cytokinesis, SpindleAssembly & !CentrosomeMat
+AURKAActive, AURKAPresent & (( TPX2 | (AJUBA & BORA) | (AJUBA & NEDD9) ) & !(AURKAActive & (PP1)))
+AURKAPresent, !PP2A
+GSK3b, GSK3b
+AJUBA, AJUBA
+MTCanAct, MTCanAct
+STMNCanAct, STMNCanAct
+CDK1CCNBComplex, ( ! Cytokinesis) & ( ( ! WEE1) | (hCPEB | CDC25B) )
+CDC25B, ( (AURKAActive | PLK1) & ( ! Cytokinesis) )
+BORA, GSK3b & ( (Cytokinesis & ( ! PLK1) ) | ( ! Cytokinesis ) )
+GWL_MASTL, (CDK1CCNBComplex & ( ! PP2A) )
+hCPEB, AURKAActive
+MT, !STMN
+NEDD9, AURKAActive
+ENSA, GWL_MASTL
+PLK1, AURKAActive | ( ( ! STMN) & STMNCanAct) | (MT & MTCanAct)
+PP1, ( ! Cytokinesis) & ( ! (AURKAActive | CDK1CCNBComplex) )
+PP2A, (PP1 & ( ! ENSA) )
+STMN, ! AURKAActive
+TPX2, PLK1
+WEE1, ! PLK1

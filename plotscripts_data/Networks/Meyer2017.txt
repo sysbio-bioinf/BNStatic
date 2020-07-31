@@ -1,0 +1,53 @@
+targets, factors
+DNAD, DNAD
+Oncogene, IL8 | IL6
+Hypoxia, Hypoxia
+ATM, DNAD
+CHK2, ATM
+ATR, DNAD
+CHK1, ATR
+p53, (CHK2 | CHK1 | ATM) & !MDM2
+HIF1, Hypoxia & !p53
+p21, p53 | HIF1
+CDK2, E2F & !p21
+RB, !(pRB | CDK4 | CDK2)
+pRB, (CDK4 | CDK2)
+E2F, (pRB | E2F) & !RB
+MDM2, p53 & !ATM
+p16INK4, Oncogene | DNAD
+CDK4, !(p16INK4 | p21)
+NEMO, DNAD
+IKK, NEMO | NIK | Akt
+IkB, (NFkB | IkB) & !(IKK & NEMO)
+NFkB, IKK & !IkB
+IL1, NFkB
+IL1R, IL1
+MyD88, IL1R
+IRAK, IL1R | MyD88 | IRAK
+TRAF6, IRAK
+TAB, (TRAF6 | IRAK)
+TAK1, (TRAF6 | TAB)
+MEKK, TRAF6
+MKK, (TAK1 | MEKK)
+JNK, MKK & ! MKP1
+p38, MKK & ! MKP1
+cJun, (p38 | JNK | ERK1_2 | CEBPbeta) & cFos
+cFos, p38 | JNK | Elk1 | CEBPbeta | STAT3
+AP1, cJun & cFos
+MKP1, AP1
+IL8, NFkB | AP1 | CEBPbeta
+NIK, TAK1
+IL6, (NFkB | ERK1_2 | CEBPbeta)
+IL6R, IL6
+GP130, IL6
+PI3K, JAK
+JAK, IL6R & ! SOCS3
+Akt, PI3K
+mTOR, Akt
+SOCS3, STAT3
+MEK1_2, GP130 & IL6
+ERK1_2, MEK1_2 & IL6
+Elk1, ERK1_2
+CEBPbeta, Elk1
+STAT3, JAK | (cFos & cJun) | mTOR
+

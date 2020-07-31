@@ -1,0 +1,21 @@
+targets, factors
+EGF, EGF
+ErbB2_3, (ErbB2 & ErbB3)
+CDK6, CycD1
+ErbB1_2, (ErbB1 & ErbB2)
+p27, (ERa & !(((CDK2 | CDK4) | cMYC) | Akt1))
+CDK4, (CycD1 & !(p27 | p21))
+ErbB1, EGF
+pRB, ((CDK2 & (CDK4 & CDK6)) | (CDK4 & CDK6))
+CycE1, cMYC
+CycD1, ((Akt1 & (cMYC & ERa)) | (MEK1 & (cMYC & ERa)))
+cMYC, ((ERa | MEK1) | Akt1)
+ErbB1_3, (ErbB1 & ErbB3)
+ErbB3, EGF
+IGF1R, ((Akt1 & !ErbB2_3) | (ERa & !ErbB2_3))
+ErbB2, EGF
+Akt1, ((((IGF1R | ErbB1_2) | ErbB1_3) | ErbB2_3) | ErbB1)
+MEK1, ((((ErbB1_3 | ErbB2_3) | IGF1R) | ErbB1) | ErbB1_2)
+ERa, (MEK1 | Akt1)
+CDK2, (CycE1 & !(p21 | p27))
+p21, (ERa & !((Akt1 | cMYC) | CDK4))

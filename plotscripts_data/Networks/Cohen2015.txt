@@ -1,0 +1,34 @@
+targets, factors
+DNAdamage, DNAdamage
+ECM, ECM
+p73, DNAdamage & !AKT2 & !AKT1 & !p53 & !ZEB1
+miR203, p53 & !(SNAI1 | ZEB1 | ZEB2)
+p21, ((SMAD & NICD) | p63 | p53 | p73 | AKT2) & !(AKT1 |ERK)
+ERK, (SMAD | CDH2 | GF | NICD) & !AKT1
+Apoptosis, (p53 | p63 | p73 | miR200 | miR34) & !ZEB2 & !AKT1 & !ERK
+p53, (DNAdamage | CTNNB1 | NICD | miR34) & !SNAI2 & !p73 & !AKT1 & !AKT2
+EMT, CDH2 & !CDH1
+CTNNB1, !DKK1 & !p53 & !AKT1 & !miR34 & !miR200 & !CDH1 & !CDH2 & !p63
+SNAI2, (TWIST1 | CTNNB1 | NICD) & !miR200 & !p53 & !miR203
+TWIST1, NICD | SNAI1 | CTNNB1
+SNAI1, (NICD | TWIST1) & !miR203 & !miR34 & !p53 & !CTNNB1
+miR34, !(SNAI1 | ZEB1 | ZEB2) & (p53 | p73) & AKT2 & !p63 & !AKT1
+p63, DNAdamage & !p53 & !miR203 & !NICD & !AKT2 & !AKT1
+TGFbeta, (ECM | NICD) & !CTNNB1
+miR200, (p63 | p53 | p73) & !(AKT2 | SNAI1 | SNAI2 | ZEB1 | ZEB2)
+NICD, ECM & !p73 & !p53 & !miR200 & !p63 & !miR34
+AKT2, TWIST1 & (TGFbeta | GF | CDH2) & !(miR203 | miR34 | p53)
+ZEB2, (SNAI1 | (SNAI2 & TWIST1) | NICD) & !miR200 & !miR203
+GF, !CDH1 & (GF | CDH2)
+Migration, VIM & ERK & Invasion & AKT2 & EMT & !p63 & !miR200 & !AKT1
+CDH1, !TWIST1 & !SNAI2 & !ZEB1 & !ZEB2 & !SNAI1 & !AKT2
+Invasion, (SMAD & CDH2) | CTNNB1
+CellCycleArrest, (miR203 | miR200 | miR34 | ZEB2 | p21) & !AKT1
+DKK1, NICD | CTNNB1
+ZEB1, ((TWIST1 & SNAI1) | CTNNB1 | SNAI2 | NICD) & !miR200
+CDH2, TWIST1
+AKT1, CTNNB1 & (TGFbeta | NICD | GF | CDH2) & !p53 & !CDH1 & !miR34
+Metastasis, Migration
+SMAD, TGFbeta & !miR203 & !miR200
+VIM, ZEB2 | CTNNB1
+

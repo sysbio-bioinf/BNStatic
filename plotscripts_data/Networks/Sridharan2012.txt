@@ -1,0 +1,21 @@
+targets, factors
+Stress, Stress
+ROS, !ARE & Stress
+Ras, ROS
+PTEN, !ROS
+ATM, ROS
+Bach1, !ROS
+PKC, !ARE & ROS
+PIP3, !PTEN & PIP2
+PI3K, Ras
+PIP2, PI3K
+Akt, PIP3
+GSK3b, !Akt
+p53, ATM & !Mdm2
+Mdm2, (p53| Akt) & !ATM
+Bad, !Akt
+Bcl2, !Bad & !p53
+Keap1, !ROS & Nrf2
+ARE, Nrf2 & (!Bach1 | !GSK3b)
+Nrf2, (!Keap1 & PKC) | Akt
+

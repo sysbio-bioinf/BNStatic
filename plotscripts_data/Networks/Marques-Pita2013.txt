@@ -1,0 +1,21 @@
+targets, factors
+nWG, nWG
+nhh, nhh
+SLP, SLP
+wg, (CIA & SLP & !CIR) | (wg & (CIA | SLP) & !CIR)
+WG, wg
+en, nWG & !SLP
+EN, en
+hh, EN & !CIR
+HH, hh
+ptc, CIA & !EN & !CIR
+PTC, ptc | (PTC & !nhh)
+PH, PTC & nhh
+SMO, !PTC | nhh
+ci, !EN
+CI, ci
+CIA, CI & (!PTC | nhh)
+CIR, CI & PTC & !nhh 
+
+
+

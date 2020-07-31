@@ -1,0 +1,17 @@
+targets, factors
+tyrosinehydroxylase, tyrosinehydroxylase
+dopamine, tyrosinehydroxylase & !COMT
+COMT, dopamine
+dopaminereceptor1, dopamine
+dopaminereceptor2, dopamine
+adenylatecyclase, dopaminereceptor1 & !dopaminereceptor2
+proteinkinaseA, adenylatecyclase
+phospholipaseC, dopaminereceptor2
+Calcium, phospholipaseC | glutamatereceptor
+Calcineurin, Calcium
+DARPP32, proteinkinaseA & !Calcineurin
+proteinphosphatase1, !DARPP32
+glutamate, glutamate
+glutamatereceptor, proteinkinaseA & glutamate & !proteinphosphatase1
+packagingproteins, glutamatereceptor
+exocytosis, packagingproteins

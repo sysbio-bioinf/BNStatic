@@ -1,0 +1,27 @@
+targets, factors
+BcateninH, !GSK3BH
+CXCR4H, CXCL12M & !(CXCR7H | GCSF | Gfi1H)
+CXCR7H, CXCL12M & NfkBH
+ERKH, ((CXCR4H & PI3KAktH) | CXCR7H | GCSF | Gfi1H | ROSH | VLA4H ) & !(FoxO3aH | GSK3BH)
+FoxO3aH, (BcateninH | ROSH) & !(ERKH | PI3KAktH)
+Gfi1H, (GCSF | TLRH) & !Gfi1H
+GSK3BH, !PI3KAktH
+NfkBH, (TLRH | ROSH | (IL1 & PI3KAktH)) & !(FoxO3aH)
+PI3KAktH, ((CXCR4H & CXCR7H) | GCSF | ROSH | TLRH | VLA4H) & !FoxO3aH
+ROSH, IL1 & TLRH & (!FoxO3aH)
+TLRH, lTLR
+VLA4H, VCAM1M & CXCR4H
+Cx43M, Cx43M
+BcateninM, !(FoxO3aM | GSK3BM | NfkBM)
+CXCL12M, Cx43M & !(BcateninM | GCSF | NfkBM)
+ERKM, GCSF | ROSM | TLRM
+FoxO3aM, (BcateninM | ROSM) & !(ERKM | PI3KAktM)
+GSK3BM, !PI3KAktM
+NfkBM, (IL1 & PI3KAktM) | (ROSM & ERKM) | TLRM
+ROSM, IL1 & TLRM & (!FoxO3aM)
+PI3KAktM, GCSF | ROSM | TLRM
+TLRM, lTLR
+VCAM1M, !BcateninM | NfkBM | PI3KAktM
+lTLR, lTLR
+IL1, ((ROSM | NfkBM) & !PI3KAktM) | ((ROSH | NfkBH) & !PI3KAktH)
+GCSF, IL1

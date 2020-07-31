@@ -1,0 +1,17 @@
+targets, factors
+CK, (PHB & ! ARF) | ! SHR
+ARR1, ! SCR & CK 
+SHY2, ARR1 & ! AUX 
+AUXIAA, ! AUX 
+ARF, ! AUXIAA
+ARF10, ! SHR & ! AUXIAA  
+ARF5, ! SHR & ! SHY2 & ! AUXIAA 
+AUX, WOX5 | AUX 
+SCR, SHR & JKD & SCR 
+SHR, SHR | (SCR & JKD)  
+MIR166, (SHR & SCR & ! CK) | ! PHB 
+PHB, ! MIR166
+JKD, ! PHB & SHR & SCR
+MGP, ! WOX5 & SHR & SCR 
+WOX5, ! ARF10 & ARF5 & ! CLE40 & SHR & SCR
+CLE40, ! SHR 

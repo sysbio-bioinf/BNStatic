@@ -1,0 +1,20 @@
+targets, factors
+Cln3, !Yhp1
+SMBF, !Clb2 & (Cln3 | Cln2 | SMBF)
+Cln2, SMBF
+Clb5, !Cdc20 & (SMBF | (!CKI & SMBF))
+Yhp1, SMBF
+Clb2, !CKI & ((!Cdh1 & B) | (!Cdc20 & B) | (!Cdh1 & Clb2 &SFF) | (!Cdc20 & Clb2 & SFF)) 
+SFF, (!CKI & (B & (!Cdc20 | !Cdh1))) | (Clb2 & SFF)
+Cdc20, M & Clb2 & SFF
+FEAR, Cdc20
+MEN, FEAR & Clb2
+Cdc14, FEAR & MEN
+Swi5, (Cdc14 & SFF) | (SFF & !Clb2)
+CKI, (Cdc14 & Swi5) | (!Cln2 & !Clb5 & !Clb2 & Swi5) | (!Cln2 & !Clb5 & !Clb2 & CKI)
+Cdh1, Cdc14 | (!Cln2 & !Clb5 & !Clb2)
+S, (!CD & S) | (!CD & (Clb5 | Clb2))
+B, (!CD & B) | (!CD & (Cln2 | Clb5))
+M, (!CD & M) | (!CD & (S & Clb2))
+CD, !CD & (M & FEAR & Cdc14)
+

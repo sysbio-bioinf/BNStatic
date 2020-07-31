@@ -1,0 +1,10 @@
+targets, factors
+pmar1, !hesC
+hesC, !pmar1
+delta, ets1 & !hesC
+ets1, !hesC
+alx1, (alx1 | ets1) & !hesC
+gcm, (gcm | aNotch ) & !alx1
+aNotch, delta
+hox11_13b, !aNotch
+

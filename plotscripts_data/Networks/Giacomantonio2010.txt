@@ -1,0 +1,8 @@
+targets, factors
+Fgf8, Fgf8 & !Emx2 & Sp8
+Emx2, !Fgf8 & !Pax6 & Coup_tfi & !Sp8
+Pax6, !Emx2 & !Coup_tfi & Sp8
+Sp8, Fgf8 & ! Emx2
+Coup_tfi, !Fgf8 & ! Sp8
+
+

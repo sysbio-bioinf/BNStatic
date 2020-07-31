@@ -1,0 +1,21 @@
+targets, factors
+BRX, AuxREs | IAA
+NGA1, BRX
+ARFi, AUXIAA | !BIN2
+IAABiosynthesis, !ARFi
+ARFa, !AUXIAA
+AUXIAA, AuxREs | !SCFTir1
+AuxREs, ARFa | !ARFi
+IAA, StimAux | !PIN | IAABiosynthesis
+PIN, AuxREs
+SCFTir1, IAA
+Elongation, AuxREs | BRREs
+BR, StimBR | BRBiosynthesis
+BRI1BAK1, BR
+BIN2, !BRI1BAK1
+BES1BZR2, !BIN2
+BZR1, !BIN2
+BRREs, BES1BZR2 | BZR1
+BRBiosynthesis, !BZR1 | BRX
+StimAux, StimAux
+StimBR, StimBR

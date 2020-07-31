@@ -1,0 +1,15 @@
+targets, factors
+AG, (!EMF1 & !AP2 & !TFL1) | (!EMF1 & !AP1 & LFY) | (!EMF1 & !AP2 & LFY) | (!EMF1 & !TFL1 & LFY & (AG & SEP)) | (!EMF1 & (LFY & WUS))
+AP1, (!AG & !TFL1) | (FT & LFY & !AG) | (FT & !AG & !PI) | (LFY & !AG & !PI) | (FT & !AG & !AP3) | (LFY & !AG & !AP3)
+AP2, !TFL1
+AP3, (LFY & UFO) | (PI & SEP & AP3 & (AG | AP1))
+EMF1, !LFY
+FT, !EMF1
+FUL, !AP1 & !TFL1
+LFY, !EMF1 | !TFL1
+PI, (LFY & (AG | AP3)) | (PI & SEP & AP3 & (AG | AP1))
+SEP, LFY
+TFL1, !AP1 & (EMF1 & !LFY)
+WUS, WUS & (!AG | !SEP)
+UFO, UFO
+
