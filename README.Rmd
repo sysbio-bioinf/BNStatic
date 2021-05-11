@@ -4,6 +4,7 @@ First, the necessary libraries must be loaded.
 The variable 'pathtoscripts' has to be modified to point to the 'plotscripts_data' folder.
 The set of Boolean networks to be analysed should be located in the 'Networks' folder in .txt format.
 
+
 In the following, the available scripts and their results will be explained.
 
 The script 'findthreshold_sugesttargets.R' can be used to generate the data (static and dynamic measures) for all networks.
