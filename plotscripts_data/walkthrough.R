@@ -138,17 +138,16 @@ for (n in 1:length(nets)){
 }#loop over nets
 #
 
-##### Calculate max. MI along all simple paths to Hubs (Fig2D) #####
+##### Calculate max. MI along all simple paths to Hubs (Fig3D) #####
 # Pick a non-hub starting node and a hub end node. Calculate all simple paths connecting these. Average the Mutual Information
 # along the edges in these paths, find the path with the maximal MI. Average the maximal MIs for all possible start/end node 
 # combinations, normalise by the number of hubs and number of non-hubs of the chosen class in the network.
 # ==> PM contain higher MI (i.e. "more determining") paths towards hubs than NM or NS non-hubs
 HubDefinition <- "Guimera"
-#HubDefinition <- "Lu"
 
 #Calculate all simple paths from non-hub nodes to hubs, get mutual information along these paths
 #get maximal MI along paths starting and ending at the same nodes
-toppercent <- threshold <- 72
+toppercent <- threshold <- 73
 maxMIbynet_PM <- maxMIbynet_NM <- maxMIbynet_NS <- rep(NA, length(nets))
 for (n in 1:length(nets)){
   print(n)
@@ -187,12 +186,8 @@ for (n in 1:length(nets)){
   surprise <- which(StatZQuantRatio > 0)
   
   ##### define sets to compare for given property #####
-  nsindices <- which(colnames(adjmat) %in% setdiff(names(AvgDynRank), names(VBnDP)))
-  if (HubDefinition == "Lu"){
-    hubindices <- setdiff(which(igraph::degree(graph)>5), nsindices)
-  } else if (HubDefinition == "Guimera"){
-    hubindices <- setdiff(which(Z > 2.5), nsindices)
-  }
+  nsindices <- which(colnames(adjmat) %in% setdiff(SBML$genes, names(VBnDP)))
+  hubindices <- setdiff(which(Z > 2.5), nsindices)
   dispropindices <- which(colnames(adjmat) %in% setdiff(names(surprise), colnames(adjmat)[c(hubindices, nsindices)]))
   discardindices <- setdiff(seq(1:length(SBML$genes)), c(hubindices, nsindices, dispropindices))
   
@@ -365,7 +360,7 @@ print(maxMIbynet_NM)
 print(maxMIbynet_NS)
 
 
-##### Plot Figure 1A/S1 #####
+##### Plot Figure 2A/S3 #####
 # Find selection threshold based on sensitivity/specificity of a static measure vs the average of three sens./spec. - curves
 # measure <- "VB"
 # measure <- "DP"
@@ -465,7 +460,7 @@ plot(
 
 #
 
-##### Plot Figure 1B/S2 #####
+##### Plot Figure 2B/S4 #####
 # Plot sensitivity-specificity curves using the comparison against individual dynamic measures
 # measure <- "VB"
 # measure <- "DP"
@@ -573,13 +568,12 @@ plot(
 #See lists of nodes according to both Hub definitions and their classifications in the given .xlsx tables 
 # (Node classification tables)
 #
-##### Plot Figure 2A - Static impact #####
+##### Plot Figure 3A - Static impact #####
 Figure <- "A"
-#HubDefinition <- "Guimera"
-#HubDefinition <- "Lu"
-for (HubDefinition in c("Guimera", "Lu")){
+HubDefinition <- "Guimera"
+for (HubDefinition in c("Guimera")){
 l <- length(nets)
-toppercent <- 72
+toppercent <- 73
 Havgperc <- nonHavgperc <- PMavgperc <- NMavgperc <- NSavgperc <- rep(NA, l)
 Hcount <- nonHcount <- PMcount <- NMcount <- NScount <- 0
 
@@ -629,8 +623,6 @@ for (n in 1:length(nets)){
   NSindices <- which(colnames(adjmat) %in% setdiff(names(AvgDynRank), names(VBnDP)))
   if (HubDefinition == "Guimera"){
     hubindices <- which(Z > 2.5) #Z>2.5 hub definition by Guimera et al.
-  } else if (HubDefinition == "Lu"){
-    hubindices <- which(igraph::degree(graph)>5) #Alternative hub definition by Lu et al.
   } else {print("Not a valid hub definition.")}
   nonhubindices <- setdiff(seq(1:length(SBML$genes)), hubindices)
   PMindices <- which(colnames(adjmat) %in% setdiff(names(surprise), colnames(adjmat)[c(NSindices)]))
@@ -733,18 +725,6 @@ if (HubDefinition == "Guimera"){
   PMavgperc_Guimera <- PMavgperc
   NMavgperc_Guimera <- NMavgperc
   NSavgperc_Guimera <- NSavgperc
-} else if (HubDefinition == "Lu"){
-  pvals_Lu <- padjvals
-  Hcount_Lu <- Hcount
-  nonHcount_Lu <- nonHcount
-  PMcount_Lu <- PMcount
-  NMcount_Lu <- NMcount
-  NScount_Lu <- NScount
-  Havgperc_Lu <- Havgperc
-  nonHavgperc_Lu <- nonHavgperc
-  PMavgperc_Lu <- PMavgperc
-  NMavgperc_Lu <- NMavgperc
-  NSavgperc_Lu <- NSavgperc
 }
 
 plot(
@@ -759,77 +739,14 @@ plot(
 }
 #
 
-### Figure2A - Grouping both hub definitions - run script with both Hub definitions beforehand to count nodes and assign variables
-l <- length(nets)
-df <- matrix(0, nrow = l*4*2, ncol=3)
-df[1:l,2] <- "Hub"
-df[(l+1):(l*2),2] <- "Non-Hub"
-df[(2*l+1):(l*3),2] <- "PM \n(Bottlenecks)"
-df[(3*l+1):(l*4),2] <- "NM"
-df[1:l,1] <- Havgperc_Guimera
-df[(l+1):(l*2),1] <- nonHavgperc_Guimera
-df[(2*l+1):(l*3),1] <- PMavgperc_Guimera
-df[(3*l+1):(l*4),1] <- NMavgperc_Guimera
-df[1:(l*4),3] <- "Guimera"
-
-df[(4*l+1):(l*5),2] <- "Hub"
-df[(5*l+1):(l*6),2] <- "Non-Hub"
-df[(6*l+1):(l*7),2] <- "PM \n(Bottlenecks)"
-df[(7*l+1):(l*8),2] <- "NM"
-df[(4*l+1):(l*5),1] <- Havgperc_Lu
-df[(5*l+1):(l*6),1] <- nonHavgperc_Lu
-df[(6*l+1):(l*7),1] <- PMavgperc_Lu
-df[(7*l+1):(l*8),1] <- NMavgperc_Lu
-df[(l*4+1):(l*8),3] <- "Lu"
-
-df <- as.data.frame(df)
-df
-names(df) <- c("percentiles", "group", "HubDef")
-df$percentiles <- as.numeric(as.character(df$percentiles))
-df$group <- factor(df$group, levels = c("Hub", "Non-Hub", "PM \n(Bottlenecks)", "NM"))
-padjvals <- compare_means(percentiles ~ group, df, method="wilcox.test", paired=T, p.adjust.method = "bonferroni") #get p.adj
-for (p in 1:length(padjvals$p.adj)){
-  if (padjvals$p.adj[p] == 1){padjvals$p.adj[p] <- ">0.99"}
-}
-
-padjvals <- cbind(padjvals, rep(NA, dim(padjvals)[1]))
-#padjvals <- padjvals[-c(5),] #remove some comparisons for plot
-names(padjvals)[9] <- "pvalsbyHubDef"
-for (r in 1:dim(padjvals)[1]){
-  G <- as.numeric(pvals_Guimera[r,6])
-  L <- as.numeric(pvals_Lu[r,6])
-  #print(c(G,L))
-  if (G > 0.0001 & G < 1){G <- round(as.numeric(pvals_Guimera[r,6]),4)}
-  if (L > 0.0001 & L < 1){L <- round(as.numeric(pvals_Lu[r,6]),4)}
-  if (G == 1){G <- "> 0.99"}
-  if (L == 1){L <- "> 0.99"}
-  if (G < 0.0001){G <- "< 1e-4"}
-  if (L < 0.0001){L <- "< 1e-4"}
-  padjvals[r,9] <- paste0(G, " / ", L)
-}
-
-ggboxplot(df, x = "group" , y = "percentiles",  fill= "HubDef", xlab="Classification", ylab="") +
-  scale_fill_discrete("Hub definition") + 
-  stat_pvalue_manual(padjvals, label = "pvalsbyHubDef", y.position = c(1.1,1.25,1.4,
-                                                               1.55,1.7,
-                                                               1.85)) +
-  ylab("Percentile score in static impact ranking") +
-  theme(plot.title = element_text(size = 20, face = "bold")) + ggtitle("   A") + 
-  annotate("text", x=c(1,2,3,4), y=-0.1, 
-           label=c(paste0("n = {",Hcount_Guimera,",",Hcount_Lu,"}"),paste0("n = {",nonHcount_Guimera,",",nonHcount_Lu,"}"),
-                   paste0("n = {",PMcount,"}"),paste0("n = {",NMcount,"}")))
-
-#
-
-##### Plot Figure 2B - Dynamic impact #####
+##### Plot Figure 3B - Dynamic impact #####
 # In the Guimera hub definition, all 17 hubs are in the NM class, giving this class higher dynamic impact,
 # even though hubs have much higher connectivity than non-hub NM nodes
 Figure <- "B"
-#HubDefinition <- "Guimera"
-#HubDefinition <- "Lu"
-for (HubDefinition in c("Guimera", "Lu")){
+HubDefinition <- "Guimera"
+for (HubDefinition in c("Guimera")){
 l <- length(nets)
-toppercent <- 72
+toppercent <- 73
 Havgperc <- nonHavgperc <- PMavgperc <- NMavgperc <- NSavgperc <- rep(NA, l)
 Hcount <- nonHcount <- PMcount <- NMcount <- NScount <- 0
 
@@ -880,8 +797,6 @@ for (n in 1:length(nets)){
   NSindices <- which(colnames(adjmat) %in% setdiff(names(AvgDynRank), names(VBnDP)))
   if (HubDefinition == "Guimera"){
     hubindices <- which(Z > 2.5) #Z>2.5 hub definition by Guimera et al.
-  } else if (HubDefinition == "Lu"){
-    hubindices <- which(igraph::degree(graph)>5) #Alternative hub definition by Lu et al.
   } else {print("Not a valid hub definition.")}
   nonhubindices <- setdiff(seq(1:length(SBML$genes)), hubindices)
   PMindices <- which(colnames(adjmat) %in% setdiff(names(surprise), colnames(adjmat)[c(NSindices)]))
@@ -952,7 +867,7 @@ for (n in 1:length(nets)){
   NSavgperc[n] <- mean(NSavgs)
 }
 
-#Fig2B
+#Fig3B
 df <- matrix(0, nrow = l*5, ncol=2)
 df[1:l,2] <- "Hub"
 df[(l+1):(2*l),2] <- "Non-Hub"
@@ -967,10 +882,6 @@ df[(4*l+1):(5*l),1] <- NSavgperc
 df <- as.data.frame(df)
 df
 if (HubDefinition == "Guimera"){
-  plabel <- c(1.15,1.3,1.5,1.7,
-              1.9,2.1,2.3,
-              2.5,2.7,2.9)
-} else if (HubDefinition == "Lu"){
   plabel <- c(1.15,1.3,1.5,1.7,
               1.9,2.1,2.3,
               2.5,2.7,2.9)
@@ -995,18 +906,6 @@ if (HubDefinition == "Guimera"){
   PMavgperc_Guimera <- PMavgperc
   NMavgperc_Guimera <- NMavgperc
   NSavgperc_Guimera <- NSavgperc
-} else if (HubDefinition == "Lu"){
-  pvals_Lu <- padjvals
-  Hcount_Lu <- Hcount
-  nonHcount_Lu <- nonHcount
-  PMcount_Lu <- PMcount
-  NMcount_Lu <- NMcount
-  NScount_Lu <- NScount
-  Havgperc_Lu <- Havgperc
-  nonHavgperc_Lu <- nonHavgperc
-  PMavgperc_Lu <- PMavgperc
-  NMavgperc_Lu <- NMavgperc
-  NSavgperc_Lu <- NSavgperc
 }
 
 plot(
@@ -1018,78 +917,13 @@ plot(
 )
 }
 #
-### Figure2B - Grouping both hub definitions - run script with both Hub definitions beforehand to count nodes and assign variables
-l <- length(nets)
-df <- matrix(0, nrow = l*5*2, ncol=3)
-df[1:l,2] <- "Hub"
-df[(l+1):(l*2),2] <- "Non-Hub"
-df[(2*l+1):(l*3),2] <- "PM \n(Bottlenecks)"
-df[(3*l+1):(l*4),2] <- "NM"
-df[(4*l+1):(l*5),2] <- "NS \n(Non-selected)"
-df[1:l,1] <- Havgperc_Guimera
-df[(l+1):(l*2),1] <- nonHavgperc_Guimera
-df[(2*l+1):(l*3),1] <- PMavgperc_Guimera
-df[(3*l+1):(l*4),1] <- NMavgperc_Guimera
-df[(4*l+1):(l*5),1] <- NSavgperc_Guimera
-df[1:(l*5),3] <- "Guimera"
 
-df[(5*l+1):(l*6),2] <- "Hub"
-df[(6*l+1):(l*7),2] <- "Non-Hub"
-df[(7*l+1):(l*8),2] <- "PM \n(Bottlenecks)"
-df[(8*l+1):(l*9),2] <- "NM"
-df[(9*l+1):(l*10),2] <- "NS \n(Non-selected)"
-df[(5*l+1):(l*6),1] <- Havgperc_Lu
-df[(6*l+1):(l*7),1] <- nonHavgperc_Lu
-df[(7*l+1):(l*8),1] <- PMavgperc_Lu
-df[(8*l+1):(l*9),1] <- NMavgperc_Lu
-df[(9*l+1):(l*10),1] <- NSavgperc_Lu
-df[(l*5+1):(l*10),3] <- "Lu"
-
-df <- as.data.frame(df)
-df
-names(df) <- c("percentiles", "group", "HubDef")
-df$percentiles <- as.numeric(as.character(df$percentiles))
-df$group <- factor(df$group, levels = c("Hub", "Non-Hub", "PM \n(Bottlenecks)", "NM", "NS \n(Non-selected)"))
-padjvals <- compare_means(percentiles ~ group, df, method="wilcox.test", paired=T, p.adjust.method = "bonferroni") #get p.adj
-for (p in 1:length(padjvals$p.adj)){
-  if (padjvals$p.adj[p] == 1){padjvals$p.adj[p] <- ">0.99"}
-}
-
-padjvals <- cbind(padjvals, rep(NA, dim(padjvals)[1]))
-padjvals <- padjvals[-c(6,7,9,10),] #remove some comparisons for plot
-names(padjvals)[9] <- "pvalsbyHubDef"
-for (r in 1:dim(padjvals)[1]){
-  G <- as.numeric(pvals_Guimera[r,6])
-  L <- as.numeric(pvals_Lu[r,6])
-  #print(c(G,L))
-  if (G > 0.0001 & G < 1){G <- round(as.numeric(pvals_Guimera[r,6]),4)}
-  if (L > 0.0001 & L < 1){L <- round(as.numeric(pvals_Lu[r,6]),4)}
-  if (G == 1){G <- "> 0.99"}
-  if (L == 1){L <- "> 0.99"}
-  if (G < 0.0001){G <- "< 1e-4"}
-  if (L < 0.0001){L <- "< 1e-4"}
-  padjvals[r,9] <- paste0(G, " / ", L)
-}
-
-ggboxplot(df, x = "group" , y = "percentiles",  fill= "HubDef", xlab="Classification", ylab="") +
-  scale_fill_discrete("Hub definition") + 
-  stat_pvalue_manual(padjvals, label = "pvalsbyHubDef", y.position = c(1.1,1.3,1.5,1.7,
-                                                               1.9,2.1)) +
-  ylab("Percentile score in dynamic impact ranking") +
-  theme(plot.title = element_text(size = 20, face = "bold")) + ggtitle("   B") + 
-  annotate("text", x=c(1,2,3,4,5), y=-0.1, 
-           label=c(paste0("n = {",Hcount_Guimera,",",Hcount_Lu,"}"),paste0("n = {",nonHcount_Guimera,",",nonHcount_Lu,"}"),
-                   paste0("n = {",PMcount,"}"),paste0("n = {",NMcount,"}"), 
-                   paste0("n = {",NScount,"}")))
-#
-
-##### Plot Figure 2C - Connectivity #####
+##### Plot Figure 3C - Connectivity #####
 Figure <- "C"
-#HubDefinition <- "Guimera"
-#HubDefinition <- "Lu"
-for (HubDefinition in c("Guimera", "Lu")){
+HubDefinition <- "Guimera"
+for (HubDefinition in c("Guimera")){
 l <- length(nets)
-toppercent <- 72
+toppercent <- 73
 Havgperc <- nonHavgperc <- PMavgperc <- NMavgperc <- NSavgperc <- rep(NA, l)
 Hcount <- nonHcount <- PMcount <- NMcount <- NScount <- 0
 
@@ -1139,8 +973,6 @@ for (n in 1:length(nets)){
   NSindices <- which(colnames(adjmat) %in% setdiff(names(AvgDynRank), names(VBnDP)))
   if (HubDefinition == "Guimera"){
     hubindices <- which(Z > 2.5) #Z>2.5 hub definition by Guimera et al.
-  } else if (HubDefinition == "Lu"){
-    hubindices <- which(igraph::degree(graph)>5) #Alternative hub definition by Lu et al.
   } else {print("Not a valid hub definition.")}
   nonhubindices <- setdiff(seq(1:length(SBML$genes)), hubindices)
   PMindices <- which(colnames(adjmat) %in% setdiff(names(surprise), colnames(adjmat)[c(NSindices)]))
@@ -1229,11 +1061,8 @@ if (HubDefinition == "Guimera"){
   plabel <- c(4.2,4.6,5.0,5.4,
               1.4,1.8,2.3,
               2.7,3.1,3.7)
-} else if (HubDefinition == "Lu"){
-  plabel <- c(4.2,4.6,5.0,5.4,
-              1.4,1.8,2.3,
-              2.7,3.1,3.7)
 }
+
 names(df) <- c("percentiles", "group")
 df$percentiles <- as.numeric(as.character(df$percentiles))
 df$group <- factor(df$group, levels = c("Hub", "Non-Hub", "PM", "NM", "NS"))
@@ -1254,18 +1083,6 @@ if (HubDefinition == "Guimera"){
   PMavgperc_Guimera <- PMavgperc
   NMavgperc_Guimera <- NMavgperc
   NSavgperc_Guimera <- NSavgperc
-} else if (HubDefinition == "Lu"){
-  pvals_Lu <- padjvals
-  Hcount_Lu <- Hcount
-  nonHcount_Lu <- nonHcount
-  PMcount_Lu <- PMcount
-  NMcount_Lu <- NMcount
-  NScount_Lu <- NScount
-  Havgperc_Lu <- Havgperc
-  nonHavgperc_Lu <- nonHavgperc
-  PMavgperc_Lu <- PMavgperc
-  NMavgperc_Lu <- NMavgperc
-  NSavgperc_Lu <- NSavgperc
 }
 
 plot(
@@ -1278,79 +1095,13 @@ plot(
 }
 #
 
-### Figure2C - Grouping both hub definitions - run script with both Hub definitions beforehand to count nodes and assign variables
-l <- length(nets)
-df <- matrix(0, nrow = l*5*2, ncol=3)
-df[1:l,2] <- "Hub"
-df[(l+1):(l*2),2] <- "Non-Hub"
-df[(2*l+1):(l*3),2] <- "PM \n(Bottlenecks)"
-df[(3*l+1):(l*4),2] <- "NM"
-df[(4*l+1):(l*5),2] <- "NS \n(Non-selected)"
-df[1:l,1] <- Havgperc_Guimera
-df[(l+1):(l*2),1] <- nonHavgperc_Guimera
-df[(2*l+1):(l*3),1] <- PMavgperc_Guimera
-df[(3*l+1):(l*4),1] <- NMavgperc_Guimera
-df[(4*l+1):(l*5),1] <- NSavgperc_Guimera
-df[1:(l*5),3] <- "Guimera"
 
-df[(5*l+1):(l*6),2] <- "Hub"
-df[(6*l+1):(l*7),2] <- "Non-Hub"
-df[(7*l+1):(l*8),2] <- "PM \n(Bottlenecks)"
-df[(8*l+1):(l*9),2] <- "NM"
-df[(9*l+1):(l*10),2] <- "NS \n(Non-selected)"
-df[(5*l+1):(l*6),1] <- Havgperc_Lu
-df[(6*l+1):(l*7),1] <- nonHavgperc_Lu
-df[(7*l+1):(l*8),1] <- PMavgperc_Lu
-df[(8*l+1):(l*9),1] <- NMavgperc_Lu
-df[(9*l+1):(l*10),1] <- NSavgperc_Lu
-df[(l*5+1):(l*10),3] <- "Lu"
-
-df <- as.data.frame(df)
-df
-names(df) <- c("percentiles", "group", "HubDef")
-df$percentiles <- as.numeric(as.character(df$percentiles))
-df$group <- factor(df$group, levels = c("Hub", "Non-Hub", "PM \n(Bottlenecks)", "NM", "NS \n(Non-selected)"))
-padjvals <- compare_means(percentiles ~ group, df, method="wilcox.test", paired=T, p.adjust.method = "bonferroni") #get p.adj
-for (p in 1:length(padjvals$p.adj)){
-  if (padjvals$p.adj[p] == 1){padjvals$p.adj[p] <- ">0.99"}
-}
-plabel <- c(4.2,4.6,5.0,5.4,
-            1.4,2.0,2.4)
-padjvals <- cbind(padjvals, rep(NA, dim(padjvals)[1]))
-padjvals <- padjvals[-c(6,7,10),] #remove some comparisons for plot
-names(padjvals)[9] <- "pvalsbyHubDef"
-for (r in 1:dim(padjvals)[1]){
-  G <- as.numeric(pvals_Guimera[r,6])
-  L <- as.numeric(pvals_Lu[r,6])
-  #print(c(G,L))
-  if (G > 0.0001 & G < 1){G <- round(as.numeric(pvals_Guimera[r,6]),4)}
-  if (L > 0.0001 & L < 1){L <- round(as.numeric(pvals_Lu[r,6]),4)}
-  if (G == 1){G <- "> 0.99"}
-  if (L == 1){L <- "> 0.99"}
-  if (G < 0.0001){G <- "< 1e-4"}
-  if (L < 0.0001){L <- "< 1e-4"}
-  padjvals[r,9] <- paste0(G, " / ", L)
-}
-
-ggboxplot(df, x = "group" , y = "percentiles",  fill= "HubDef", xlab="Classification", ylab="") +
-  scale_fill_discrete("Hub definition") + 
-  stat_pvalue_manual(padjvals, label = "pvalsbyHubDef", y.position = plabel) +
-  ylab("Connectivity (z-score)") +
-  theme(plot.title = element_text(size = 20, face = "bold")) + ggtitle("   C") + 
-  annotate("text", x=c(1,2,3,4,5), y=-2, 
-           label=c(paste0("n = {",Hcount_Guimera,",",Hcount_Lu,"}"),paste0("n = {",nonHcount_Guimera,",",nonHcount_Lu,"}"),
-                   paste0("n = {",PMcount,"}"),paste0("n = {",NMcount,"}"), 
-                   paste0("n = {",NScount,"}")))
-#
-
-
-##### Plot Figure 2D - Max. MI along paths to Hubs #####
+##### Plot Figure 3D - Max. MI along paths to Hubs #####
 Figure <- "D"
-#HubDefinition <- "Guimera"
-#HubDefinition <- "Lu"
+HubDefinition <- "Guimera"
 for (HubDefinition in c("Guimera", "Lu")){
 l <- length(nets)
-toppercent <- 72
+toppercent <- 73
 Havgperc <- PMavgperc <- NMavgperc <- NSavgperc <- rep(NA, 35)
 if (HubDefinition == "Guimera"){
   PMavgperc <- PMavgperc_Guimera <- readRDS(paste0(path, "Network measures/MaxMI/Guimera_maxMIbynet_PM.RDS"))
@@ -1396,68 +1147,11 @@ plot(
 }
 #
 
-### Figure2D - Grouping both hub definitions
-l <- length(nets)
-df <- matrix(0, nrow = l*3*2, ncol=3)
-df[1:l,2] <- "PM \n(Bottlenecks)"
-df[(l+1):(l*2),2] <- "NM"
-df[(2*l+1):(l*3),2] <- "NS \n(Non-selected)"
-df[1:l,1] <- PMavgperc_Guimera
-df[(l+1):(l*2),1] <- NMavgperc_Guimera
-df[(2*l+1):(l*3),1] <- NSavgperc_Guimera
-df[1:(l*3),3] <- "Guimera"
-
-df[(3*l+1):(l*4),2] <- "PM \n(Bottlenecks)"
-df[(4*l+1):(l*5),2] <- "NM"
-df[(5*l+1):(l*6),2] <- "NS \n(Non-selected)"
-df[(3*l+1):(l*4),1] <- PMavgperc_Lu
-df[(4*l+1):(l*5),1] <- NMavgperc_Lu
-df[(5*l+1):(l*6),1] <- NSavgperc_Lu
-df[(l*3+1):(l*6),3] <- "Lu"
-
-df <- as.data.frame(df)
-df
-names(df) <- c("percentiles", "group", "HubDef")
-df$percentiles <- as.numeric(as.character(df$percentiles))
-df$group <- factor(df$group, levels = c("PM \n(Bottlenecks)", "NM", "NS \n(Non-selected)"))
-padjvals <- compare_means(percentiles ~ group, df, method="wilcox.test", paired=T, p.adjust.method = "bonferroni") #get p.adj
-#for (p in 1:length(padjvals$p.adj)){
-#  if (padjvals$p.adj[p] == 1){padjvals$p.adj[p] <- ">0.99"}
-#}
-
-padjvals <- cbind(padjvals, rep(NA, dim(padjvals)[1]))
-#padjvals <- padjvals[-c(5),] #remove some comparisons for plot
-names(padjvals)[9] <- "pvalsbyHubDef"
-for (r in 1:dim(padjvals)[1]){
-  G <- as.numeric(pvals_Guimera[r,6])
-  L <- as.numeric(pvals_Lu[r,6])
-  if (G > 0.0001 & G < 1){G <- round(as.numeric(pvals_Guimera[r,6]),4)}
-  if (L > 0.0001 & L < 1){L <- round(as.numeric(pvals_Lu[r,6]),4)}
-  if (G == 1){G <- "> 0.99"}
-  if (L == 1){L <- "> 0.99"}
-  if (G < 0.0001){G <- "< 1e-4"}
-  if (L < 0.0001){L <- "< 1e-4"}
-  print(c(G,L))
-  padjvals[r,9] <- paste0(G, " / ", L)
-}
-
-ggboxplot(df, x = "group" , y = "percentiles",  fill= "HubDef", xlab="Classification", ylab="") +
-  scale_fill_discrete("Hub definition") + 
-  stat_pvalue_manual(padjvals, label = "pvalsbyHubDef", y.position = c(0.6,0.7,0.8)) +
-  ylab("Percentile score in static impact ranking") +
-  theme(plot.title = element_text(size = 20, face = "bold")) + ggtitle("   D") + 
-  annotate("text", x=c(1,2,3), y=-0.1, 
-          label=c(paste0("n = {",PMcount,"}"),paste0("n = {",NMcount,"}"),paste0("n = {",NScount,"}")))
-   # label=c(paste0("n = {",PMcount_Guimera,",",PMcount_Lu,"}"),paste0("n = {",NMcount_Guimera,",",NMcount_Lu,"}"),
-   #         paste0("n = {",NScount_Guimera,",",NScount_Lu,"}")))
-
-#
-
 ##### Robustness tests for threshold #####
-##### Bootstrap robustness test, plot FigS3 #####
-#Loads seed for chosen random selection of 10000x34 networks, loads data for sensitivity & specificity, creates boxplot
+##### Bootstrap robustness test, plot FigS5 #####
+#Loads seed for chosen random selection of 10000x35 networks, loads data for sensitivity & specificity, creates boxplot
 #==> Selection threshold is robust against random selection of networks
-# pick 34 nets out of 34 10000 times
+# pick 35 nets out of 35 10000 times
 # load sensitivity-specificity curves for given combinations of static and dynamic measures
 # -> Determine thresholds each time
 netseq <- seq(1:length(nets))
@@ -1476,7 +1170,7 @@ seed <- readRDS(paste0(pathtoscripts, "bootstrap/seed.RDS"))
 # saveRDS(seedmatrix, file=paste0(pathtoscripts, "bootstrap/seed.RDS"))
 
 nprime <- length(nets)
-replacing = T #networks can be selected multiple times, nprime=n=34, replacing=T, select=F for bootstrap
+replacing = T #networks can be selected multiple times, nprime=n=35, replacing=T, select=F for bootstrap
 select = F #== F if selecting, ==T if skipping the randomly chosen nets
 gainT <- lossT <- hammingT <- balancedTs <- rep(NA,reps)
 saving <- F #set TRUE if intermediate results should be saved
@@ -1532,13 +1226,13 @@ median(balancedTs)
 IQR(balancedTs)
 #
 
-##### Generate data for permutation robustness test, plot FigS4 #####
+##### Generate data for permutation robustness test #####
 #Check if there are multiple statically identical nodes at a given cutoff, test sensitivity/specificity for all combinations
 #=> Selection threshold is robust in case of nodes with identical static ranking
-xs <- 1 #1=VB, 2=DP, 3=union, 4=intersection
+xs <- 4 #1=VB, 2=DP, 3=union, 4=intersection
 #ys <- 1 #1=Hamming distance, 2=Attractor loss, 3=Attractor gain
-toppercent <- 72
-skipnets <- 14 #skip network if small variation of rankings leads to large number of combinations, save NA-vector instead
+toppercent <- 73
+#skipnets <- 14 #skip network if small variation of rankings leads to large number of combinations, save NA-vector instead
 for (ys in 1:3){
   print(paste0("ys=",ys))
   sensit <- specif <- rep(NA, length(nets)) #write final averaged sens/spec values of a given net here

@@ -4,7 +4,6 @@ First, the necessary libraries must be loaded.
 The variable 'pathtoscripts' has to be modified to point to the 'plotscripts_data' folder.
 The set of Boolean networks to be analysed should be located in the 'Networks' folder in .txt format.
 
-
 In the following, the available scripts and their results will be explained.
 
 The script 'findthreshold_sugesttargets.R' can be used to generate the data (static and dynamic measures) for all networks.
@@ -34,9 +33,9 @@ Calculate sensitivity & specificity for every threshold of selection
   and will be loaded by the scripts for plotting.
   
   
-Calculate max. MI along all simple paths to Hubs (Fig2D)
+Calculate max. MI along all simple paths to Hubs (Fig3D)
 
-  Generates the data necessary for the plot in Figure 2D. 
+  Generates the data necessary for the plot in Figure 3D. 
   This data has also already been saved in the results folder and will
   be loaded from there for the following plot.
   This script calculates all simple paths leading from non-hubs to hubs and averages 
@@ -48,13 +47,13 @@ Calculate max. MI along all simple paths to Hubs (Fig2D)
   
 ### Plotting
   
-Plot Figure 1A/S1
+Plot Figure 2A/S3
   The sensivity and specificity across selection thresholds for given static and dynamic measures are loaded.
   The resulting figure is obtained as the average of three sensitivity-specificity curves for the individual dynamic measures.
   => Find selection threshold as point where sensitivity==specificity, used for classifying nodes as non-selected (NS)
   
 
-Plot Figure 1B/S2/S4
+Plot Figure 2B/S4
   This plots shows the results from Fig1A split up across the individual dynamic measures of Hamming distance, 
   attractor loss and attractor gain.
   
@@ -72,20 +71,20 @@ Plot Figure 1B/S2/S4
   Hub nodes are colored red in their respective mismatch class.
   
   
-Plot Figure 2A - Static impact
+Plot Figure 3A - Static impact
   A static impact of 1 indicates the node to have the highest score on the ranking of VBnDP, while 0 indicates the lowest.
   
 
-Plot Figure 2B - Dynamic impact
+Plot Figure 3B - Dynamic impact
   A dynamic impact of 1 indicates the node to have the highest score on the average of the three dynamic rankings, 
   while 0 indicates the lowest.
   
   
-Plot Figure 2C - Connectivity
+Plot Figure 3C - Connectivity
   The z-scores for all nodes belonging to a given class in a network is averaged, results are shown across networks.
   
   
-Plot Figure 2D - Max. MI along paths to Hubs
+Plot Figure 3D - Max. MI along paths to Hubs
   The generated data is loaded.
   The higher the values of the maximal MI, the more nodes will determine the state of their outputs.
   That is, a value of 1 would indicate that a signal is perfectly passed on from the start to the end node.
@@ -94,9 +93,9 @@ Plot Figure 2D - Max. MI along paths to Hubs
   
 ### Robustness tests for threshold
 
-Bootstrap robustness test (FigS3)
+Bootstrap robustness test (FigS5)
 
-  A seed containing 10 000 repeats of random selections of 34 networks is loaded.
+  A seed containing 10 000 repeats of random selections of 35 networks is loaded.
   The sensitivity and specificity curves for the static measure of VBnDP (intersection) for these selections are 
   loaded and averaged.
   From this, the threshold at which sensitivity and specificity are equal is determined for all dynamic measures
@@ -104,7 +103,7 @@ Bootstrap robustness test (FigS3)
   ==> The threshold remains stable for the average of dynamic measures
   
   
-Generate data for permutation robustness test (FigS4)
+Generate data for permutation robustness test (FigS5)
 
   This script generates the data for the sensitivity and specificity curves obtained by averaging all possible permutations
   in case of multiple nodes with identical static rankings at the selection threshold. This is done for the static measure of

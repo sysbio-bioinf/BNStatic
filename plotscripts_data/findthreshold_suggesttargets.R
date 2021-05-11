@@ -22,7 +22,7 @@ saveRDS(nets, file=paste0(path, "/Network measures/nets.RDS")) #Save reference f
 for (n in 1:length(nets)){
   print(paste0("Net nr. ", n))
   netfile <- paste(path, nets[n], sep = "")
-  SBML <- loadNetwork(netfile)
+  SBML <- loadNetwork(netfile) #need symbolic=TRUE if there are time delays
   adjmat <- conv2adjmat(SBML, inputcorrected = F)
   graph <- graph_from_adjacency_matrix(adjmat)
   #VB <- VertexBetweenness(params=list(adjmat=adjmat, normalized=T)) 
@@ -33,15 +33,15 @@ for (n in 1:length(nets)){
   saveRDS(DP, file=paste0(path, "/Network measures/", "net_", n, "_DP.RDS"))
   Z <- singlemoduleZ(SBML)
   saveRDS(Z, file=paste0(path, "/Network measures/", "net_", n, "_Z.RDS"))
-  print("Calculating Hamming distance")
-  Hamming <- meanofminattrdistsmerged(SBML, method="trinary") #Hamming distance
-  saveRDS(Hamming, file=paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS"))
-  print("Calculating attractor loss")
-  AttrLoss <- attrcoveragemerged(SBML, merging="min", method="trinary") #Attractor loss
-  saveRDS(AttrLoss, file=paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS"))
-  print("Calculating attractor gain")
-  AttrGain <- newattrgainbygenemerged(SBML, method="trinary") #Attractor gain
-  saveRDS(AttrGain, file=paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS"))
+  #print("Calculating Hamming distance")
+  #Hamming <- meanofminattrdistsmerged(SBML, method="trinary") #Hamming distance
+  #saveRDS(Hamming, file=paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS"))
+  #print("Calculating attractor loss")
+  #AttrLoss <- attrcoveragemerged(SBML, merging="min", method="trinary") #Attractor loss
+  #saveRDS(AttrLoss, file=paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS"))
+  #print("Calculating attractor gain")
+  #AttrGain <- newattrgainbygenemerged(SBML, method="trinary") #Attractor gain
+  #saveRDS(AttrGain, file=paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS"))
 }
 
 ##### Load results of static and dynamic measures, determine selection threshold for VBnDP #####
@@ -68,9 +68,9 @@ for (n in 1:length(nets)){
         VB <- readRDS(paste0(path, "/Network measures/", "net_", n, "_VB.RDS"))
         DP <- readRDS(paste0(path, "/Network measures/", "net_", n, "_DP.RDS"))
         Z <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Z.RDS"))
-        Hamming <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS")) #Hamming distance
-        AttrLoss <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS")) #Attractor loss
-        AttrGain <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS")) #Attractor gain
+        #Hamming <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS")) #Hamming distance
+        #AttrLoss <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS")) #Attractor loss
+        #AttrGain <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS")) #Attractor gain
         
         #if picking given percentage of high scoring genes instead of mean or mean+sd as threshold
         p <- ceiling((toppercent/100)*dim(adjmat)[1])
@@ -170,15 +170,14 @@ print(paste0("The selection threshold for the static measure of VBnDP is determi
 
 ##### Choose Hub definition, return suggested intervention targets #####
 HubDefinition <- "Guimera" #Hub = z-score > 2.5
-#HubDefinition <- "Lu" #Hub = Total node degree > 5
 
-threshold <- 72 #Use previously determined threshold T for selecting nodes in VBnDP
+threshold <- 73 #Use previously determined threshold T for selecting nodes in VBnDP
 #For the chosen network, returns a list of PM nodes as possible intervention targets
 #Nodes are labelled as Hubs or Non-Hubs and sorted from the largest to smallest mismatch between VBnDP and connectivity
 
 #construct VBnDP and Z rankings for nodes in net, classify nodes
   nets
-  n <-5 # Network index, return target suggestions for network nets[n]
+  n <-1 # Network index, return target suggestions for network nets[n]
   #get percentiles, rankings
   netfile <- paste(path, nets[n], sep = "")
   SBML <- loadNetwork(netfile)
@@ -187,10 +186,10 @@ threshold <- 72 #Use previously determined threshold T for selecting nodes in VB
   VB <- readRDS(paste0(path, "/Network measures/", "net_", n, "_VB.RDS"))
   DP <- readRDS(paste0(path, "/Network measures/", "net_", n, "_DP.RDS"))
   Z <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Z.RDS"))
-  Hamming <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS")) #Hamming distance
-  AttrLoss <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS")) #Attractor loss
-  AttrGain <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS")) #Attractor gain
-  AvgDynRank <- colMeans(rbind(rank(-Hamming, ties.method ="min"), rank(AttrLoss, ties.method="min"), rank(-AttrGain, ties.method="min")), na.rm=TRUE)
+  #Hamming <- readRDS(paste0(path, "/Network measures/", "net_", n, "_Hamming.RDS")) #Hamming distance
+  #AttrLoss <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrLoss.RDS")) #Attractor loss
+  #AttrGain <- readRDS(paste0(path, "/Network measures/", "net_", n, "_AttrGain.RDS")) #Attractor gain
+  #AvgDynRank <- colMeans(rbind(rank(-Hamming, ties.method ="min"), rank(AttrLoss, ties.method="min"), rank(-AttrGain, ties.method="min")), na.rm=TRUE)
   xselect_VB <- sort(VB, decreasing = TRUE)[1:p]
   xselect_DP <- sort(DP, decreasing = TRUE)[1:p]
   VBRank <- rank(-VB, ties.method="min")
@@ -213,15 +212,11 @@ threshold <- 72 #Use previously determined threshold T for selecting nodes in VB
   surprise <- which(StatZQuantRatio > 0)
   
   #define sets
-  NSindices <- which(colnames(adjmat) %in% setdiff(names(AvgDynRank), names(VBnDP)))
-  if (HubDefinition == "Lu"){
-    hubindices <- setdiff(which(igraph::degree(graph)>5), NSindices)
-  } else if (HubDefinition == "Guimera"){
-    hubindices <- setdiff(which(Z > 2.5), NSindices)
-  }
+  NSindices <- which(colnames(adjmat) %in% setdiff(SBML$genes, names(VBnDP)))
+  hubindices <- setdiff(which(Z > 2.5), NSindices)
   nonhubindices <- setdiff(seq(1:length(SBML$genes)), hubindices)
   PMindices <- which(colnames(adjmat) %in% setdiff(names(surprise), colnames(adjmat)[c(NSindices)]))
-  NSindices <- setdiff(seq(1:length(SBML$genes)), c(NSindices, PMindices))
+  NMindices <- setdiff(seq(1:length(SBML$genes)), c(NSindices, PMindices))
 
   targets <- colnames(adjmat)
   names(targets)[hubindices] <- "Hub"
@@ -235,6 +230,9 @@ threshold <- 72 #Use previously determined threshold T for selecting nodes in VB
   #Result: Recommended intervention targets, highest mismatch between VBnDP and connectivity rankings first
   targets <- targets[match(decreasingMismatchOrder, targets)]
   print(paste0("The recommended intervention targets (ordered by highest mismatch first) are:"))
+  #Print with magnitude of mismatch:
+  sort(StatZQuantRatio[surprise], decreasing = T)
+  #Print with Hub/Non-Hub classification:
   print(targets)
   
   
