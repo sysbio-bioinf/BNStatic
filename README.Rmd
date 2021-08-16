@@ -1,3 +1,4 @@
+
 All analyses and plots can be generated via the 'walkthrough.R' file in the folder 'plotscripts_data'.
 First, the necessary libraries must be loaded. 
 
@@ -8,7 +9,7 @@ In the following, the available scripts and their results will be explained.
 
 The script 'findthreshold_sugesttargets.R' can be used to generate the data (static and dynamic measures) for all networks.
 It then determines the selection threshold comparing the selection of VBnDP (intersection) to the average of the three dynamic measures.
-The nodes in a given network can then be classified and suggested intervention targets are returned. These are PM nodes, labelled as either hubs or non-hubs depending on the chosen hub definition. The nodes are sorted in order of decreasing mismatch.
+The nodes in a given network can then be classified and suggested intervention targets are returned. These are PM nodes, labelled as either hubs or non-hubs (a hub being a node with a connectivity z-score greater than or equal to 2.5). The nodes are sorted in order of decreasing mismatch.
 
 ### Data analysis
 
@@ -90,10 +91,8 @@ Plot Figure 3D - Max. MI along paths to Hubs
   That is, a value of 1 would indicate that a signal is perfectly passed on from the start to the end node.
   A value of 0 would indicate that other regulatory influences would overrule the signal being passed on from the start node.
   
-  
-### Robustness tests for threshold
 
-Bootstrap robustness test (FigS5)
+Bootstrap robustness test of threshold (FigS5)
 
   A seed containing 10 000 repeats of random selections of 35 networks is loaded.
   The sensitivity and specificity curves for the static measure of VBnDP (intersection) for these selections are 
@@ -101,14 +100,22 @@ Bootstrap robustness test (FigS5)
   From this, the threshold at which sensitivity and specificity are equal is determined for all dynamic measures
   as well as the average of dynamic measures. The distribution of these thresholds is then plotted.
   ==> The threshold remains stable for the average of dynamic measures
-  
-  
-Generate data for permutation robustness test (FigS5)
 
-  This script generates the data for the sensitivity and specificity curves obtained by averaging all possible permutations
-  in case of multiple nodes with identical static rankings at the selection threshold. This is done for the static measure of
-  VBnDP (intersection) and any given dynamic measure.
-  ==> The threshold remains stable for the average of dynamic measures
+
+Overlap between static and dynamic based selections (FigS6)
+  Plots the overlap of genes with high dynamic impact with those selected by static measures, depending on the size of the network.
+
+Frequency of network motif participation by class (FigS7)
+  Plots the frequency with which genes in a given network participate in network motifs (C1-C4FFL, I1-I4FFL and Bifan), grouped by selected/non-selected or class.
+
+Overlap with FVS (FigS8)
+  Plots the overlap of nodes in the selected/non-selected category or a given class with the feedback vertex set (FVS) across networks.
+
+Venn diagrams comparing gatekeepers to network motifs, canalyzers and the FVS (FigS9)
+  The frequency with which genes in a network participate in coherent and incoherent feed-forward loops as well as bifan motifs is counted. Alternatively, these values can be loaded directly from the resultmatrix.RDS file.
+  Two Venn diagrams are created. The first shows the overlap of nodes in the gatekeeper class with nodes participating in at least one network motif of any kind, nodes which canalyze at least one Boolean function in their network and nodes belonging to the feedback vertex set (FVS).
+  The second diagram compares gatekeeper nodes to nodes participating at least once in any individual network motif.
+  
   
   
   
