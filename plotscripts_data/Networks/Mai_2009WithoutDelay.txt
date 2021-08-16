@@ -1,0 +1,42 @@
+targets, factors
+TNF, TNF
+GF, GF
+TNFR1, TNF
+APC, Cas9 & Mito & Apaf1 & !IAP
+RIP, TRADD
+JNKK, MEKK1 & !AKT
+TRAF, TRADD
+IkB, NFkB & !IKK
+BclX, NFkB & !(p53 & BAD)
+MEKK1, TRAF
+PI3K, GFR
+Mdm2, AKT | p53
+TRADD, TNFR1
+Cas12, Cas7
+TRAF2, RIP & !TNFR2
+GFR, GF
+A20, NFkB
+DNADamageEvent, Cas3 & Cas3delay
+Cas3delay, Cas3
+Apaf1, p53
+FADD, TRADD
+BID, ((Cas8 & p53) | (JNK & p53)) & !BclX
+BAD, p53 & !AKT
+Cas9, (Cas3 | Cas12) & !(IAP & AKT)
+IAP, NFkB & ((!Cas3 & !Cas6) | Mito)
+Mito, (BID & !BclX)
+AKT, PIP3
+Cas6, (Cas3 & !IAP)
+PTEN, p53
+NFkB, !IkB
+NIK, TRAF2
+PIP2, GFR
+p53, (JNK | DNADamageEvent) & !Mdm2
+TNFR2, TNF
+Cas7, (Cas8 | APC) & !IAP
+Cas8, (Cas6 | FADD) & !cFLIP
+cFLIP, TRAF
+JNK, JNKK
+IKK, (NIK | AKT) & !A20
+PIP3, PI3K & PIP2 & !PTEN
+Cas3, (Cas8 | APC | Cas6) & !IAP
