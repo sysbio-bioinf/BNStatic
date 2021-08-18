@@ -1,3 +1,5 @@
+Edit 18.08.2021: Bugfix in the counting of network motifs.
+
 All analyses and plots can be generated via the 'walkthrough.R' file in the folder 'plotscripts_data'.
 First, the necessary libraries must be loaded. 
 
