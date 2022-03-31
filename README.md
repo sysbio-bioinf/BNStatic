@@ -1,7 +1,8 @@
 Edit 31.03.2022: Corrigendum: 
 
-[Corrigendum_Bioinformatics2021Weidner](https://github.com/sysbio-bioinf/BNStatic/blob/master/plotscripts_data/Corrigendum_Bioinformatics2021Weidner.pdf)
-[Corrigendum_Supplement](https://github.com/sysbio-bioinf/BNStatic/blob/master/plotscripts_data/Corrigendum_Supplement.pdf)
+* [Corrigendum_Bioinformatics2021Weidner](https://github.com/sysbio-bioinf/BNStatic/blob/master/plotscripts_data/Corrigendum_Bioinformatics2021Weidner.pdf)
+
+* [Corrigendum_Supplement](https://github.com/sysbio-bioinf/BNStatic/blob/master/plotscripts_data/Corrigendum_Supplement.pdf)
 
 Edit 18.08.2021: Bugfix in the counting of network motifs.
 
